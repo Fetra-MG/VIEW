@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rambeso — Boutique en ligne Madagascar</title>
+  <meta name="description" content="Rambeso propose des produits stylés, utiles et pratiques, livrés en toute sécurité à domicile à Madagascar." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:   #FF6B35;
+      --orange2:  #FF8C5A;
+      --navy:     #0D1B2A;
+      --navy2:    #1A2D42;
+      --bg:       #F7F5F2;
+      --bg2:      #EDE9E3;
+      --border:   #E0D9D0;
+      --muted:    #5A6475;
+      --peach:    #FFB89A;
+      --gold:     #C9963A;
+      --green:    #2DB87E;
+      --white:    #FFFFFF;
+      --wa:       #25D366;
+      --call:     #0D6EFD;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--navy);
+      overflow-x: hidden;
+    }
+
+    /* ── CANVAS HERO BG ── */
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── FLOATING WHATSAPP ── */
+    .wa-float {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      z-index: 200;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--wa);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 32px rgba(37,211,102,.45);
+      text-decoration: none;
+      transition: transform .25s, box-shadow .25s;
+      animation: waPulse 2.5s ease-in-out infinite;
+    }
+    .wa-float:hover { transform: scale(1.1); box-shadow: 0 12px 40px rgba(37,211,102,.55); }
+    @keyframes waPulse {
+      0%,100% { box-shadow: 0 8px 32px rgba(37,211,102,.45); }
+      50%      { box-shadow: 0 8px 48px rgba(37,211,102,.7); }
+    }
+    .wa-float svg { width: 28px; height: 28px; fill: #fff; }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow .3s;
+    }
+    header.scrolled { box-shadow: 0 4px 32px rgba(13,27,42,.08); }
+    nav {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .logo-wrap { display: flex; align-items: center; gap: .75rem; text-decoration: none; }
+    .logo-svg-mark {
+      width: 40px; height: 40px;
+      background: var(--orange);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: .02em;
+      line-height: 1;
+    }
+    .logo-text span { color: var(--orange); }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 2rem; list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-size: .88rem; font-weight: 500;
+      color: var(--navy);
+      letter-spacing: .02em;
+      transition: color .2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: var(--orange);
+      transition: width .3s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-links a:hover::after { width: 100%; }
+    .btn-nav {
+      background: var(--orange) !important;
+      color: var(--white) !important;
+      padding: .5rem 1.4rem;
+      border-radius: 50px;
+      font-weight: 600 !important;
+    }
+    .btn-nav::after { display: none !important; }
+    .btn-nav:hover { background: #e0582a !important; }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--navy); border-radius: 2px; transition: all .3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu {
+      display: none; position: fixed; top: 72px; left: 0; right: 0;
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem; flex-direction: column; gap: 1.2rem;
+      z-index: 99; box-shadow: 0 8px 32px rgba(13,27,42,.1);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      text-decoration: none; font-size: 1rem; font-weight: 500;
+      color: var(--navy); padding: .5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+
+    /* ── HERO ── */
+    .hero-wrap {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center;
+      overflow: hidden;
+      background: var(--navy);
+    }
+    .hero-particles { position: absolute; inset: 0; overflow: hidden; }
+    .hero-particles span {
+      position: absolute;
+      border-radius: 50%;
+      opacity: .18;
+      animation: particleDrift linear infinite;
+    }
+    @keyframes particleDrift {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: .18; }
+      90%  { opacity: .18; }
+      100% { transform: translateY(-120px) scale(1); opacity: 0; }
+    }
+
+    /* animated gradient orbs */
+    .hero-orbs {
+      position: absolute; inset: 0; pointer-events: none;
+    }
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); opacity: .3;
+      animation: orbFloat ease-in-out infinite;
+    }
+    .orb1 { width: 600px; height: 600px; background: var(--orange); top: -100px; right: -100px; animation-duration: 8s; }
+    .orb2 { width: 400px; height: 400px; background: #1E3A8A; bottom: -80px; left: -80px; animation-duration: 10s; animation-delay: -3s; }
+    .orb3 { width: 300px; height: 300px; background: var(--peach); top: 50%; left: 40%; animation-duration: 12s; animation-delay: -6s; }
+    @keyframes orbFloat {
+      0%,100% { transform: translate(0,0) scale(1); }
+      33%      { transform: translate(30px,-40px) scale(1.05); }
+      66%      { transform: translate(-20px,30px) scale(0.95); }
+    }
+
+    /* animated grid lines */
+    .hero-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridShift 20s linear infinite;
+    }
+    @keyframes gridShift {
+      0%   { background-position: 0 0; }
+      100% { background-position: 60px 60px; }
+    }
+
+    .hero-inner {
+      position: relative; z-index: 2;
+      max-width: 1260px; margin: 0 auto;
+      padding: 140px 2rem 5rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+    .hero-text { animation: fadeUp .9s ease both; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(255,107,53,.15);
+      border: 1px solid rgba(255,107,53,.4);
+      color: var(--orange2);
+      font-size: .78rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .4rem 1rem; border-radius: 50px;
+      margin-bottom: 1.6rem;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6rem, 5.5vw, 4rem);
+      font-weight: 700; line-height: 1.1;
+      color: var(--white); margin-bottom: 1.4rem;
+    }
+    .hero-title .accent { color: var(--orange2); font-style: italic; }
+    .hero-desc {
+      font-size: 1rem; line-height: 1.8;
+      color: rgba(255,255,255,.65);
+      max-width: 480px; margin-bottom: 2.5rem;
+    }
+    .hero-cta { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--orange); color: var(--white);
+      text-decoration: none; font-weight: 600; font-size: .92rem;
+      padding: .9rem 2rem; border-radius: 50px;
+      box-shadow: 0 8px 28px rgba(255,107,53,.45);
+      transition: all .25s;
+    }
+    .btn-primary:hover { background: #e0582a; transform: translateY(-2px); box-shadow: 0 12px 36px rgba(255,107,53,.5); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: .5rem;
+      color: rgba(255,255,255,.8);
+      text-decoration: none; font-weight: 500; font-size: .92rem;
+      padding: .9rem 1.5rem; border-radius: 50px;
+      border: 1.5px solid rgba(255,255,255,.2);
+      transition: all .25s;
+    }
+    .btn-secondary:hover { border-color: rgba(255,255,255,.5); color: var(--white); }
+
+    /* hero visual */
+    .hero-visual { position: relative; animation: fadeUp .9s .2s ease both; }
+    .hero-showcase {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    .showcase-card {
+      border-radius: 18px; overflow: hidden;
+      box-shadow: 0 20px 56px rgba(0,0,0,.4);
+      position: relative;
+    }
+    .showcase-card:first-child { margin-top: 2rem; }
+    .showcase-card img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform .5s; }
+    .showcase-card:hover img { transform: scale(1.06); }
+    .showcase-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(13,27,42,.85));
+      padding: .8rem .9rem .7rem;
+      font-size: .78rem; font-weight: 600; color: var(--white);
+      letter-spacing: .04em; text-transform: uppercase;
+    }
+    .float-pill {
+      position: absolute; background: var(--white);
+      border-radius: 40px; padding: .55rem 1rem;
+      box-shadow: 0 8px 28px rgba(0,0,0,.25);
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .78rem; font-weight: 600; color: var(--navy);
+      animation: floatY 3s ease-in-out infinite;
+      white-space: nowrap;
+    }
+    .float-pill.p1 { bottom: -16px; left: -16px; animation-delay: 0s; }
+    .float-pill.p2 { top: 8px; right: -20px; animation-delay: 1.5s; }
+    .pill-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ── STATS ── */
+    .stats-bar { background: var(--orange); padding: 2rem 2rem; }
+    .stats-inner {
+      max-width: 1260px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem; font-weight: 700; color: var(--white);
+    }
+    .stat-label { font-size: .82rem; color: rgba(255,255,255,.8); margin-top: .2rem; font-weight: 500; }
+
+    /* ── SECTION GÉNÉRIQUE ── */
+    section { padding: 5rem 2rem; }
+    .section-inner { max-width: 1260px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block;
+      background: rgba(255,107,53,.1); color: var(--orange);
+      font-size: .73rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      padding: .35rem .9rem; border-radius: 50px; margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+      font-weight: 700; color: var(--navy);
+      margin-bottom: 1rem; line-height: 1.15;
+    }
+    .section-desc { font-size: .97rem; color: var(--muted); line-height: 1.75; max-width: 560px; }
+    .section-head { margin-bottom: 3rem; }
+
+    /* ── AVANTAGES ── */
+    .avantages { background: var(--white); }
+    .avantages-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .avantage-card {
+      background: var(--bg);
+      border: 1px solid var(--border); border-radius: 20px;
+      padding: 2rem; position: relative; overflow: hidden;
+      transition: transform .3s, box-shadow .3s, border-color .3s;
+    }
+    .avantage-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--orange), var(--peach));
+      transform: scaleX(0); transform-origin: left; transition: transform .35s;
+    }
+    .avantage-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(13,27,42,.1); border-color: transparent; }
+    .avantage-card:hover::before { transform: scaleX(1); }
+    .avantage-icon {
+      width: 52px; height: 52px;
+      background: rgba(255,107,53,.1); border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.2rem;
+    }
+    .avantage-icon svg { width: 24px; height: 24px; }
+    .avantage-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: .6rem;
+    }
+    .avantage-desc { font-size: .88rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── PRODUITS ── */
+    .produits { background: var(--bg); }
+    .produits-filters {
+      display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 2.5rem;
+    }
+    .filter-btn {
+      padding: .45rem 1.1rem;
+      border-radius: 50px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      font-family: 'Outfit', sans-serif;
+      font-size: .82rem; font-weight: 500;
+      color: var(--muted); cursor: pointer;
+      transition: all .2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--orange); border-color: var(--orange); color: var(--white);
+    }
+
+    .produits-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1.5rem;
+    }
+    .produit-card {
+      background: var(--white);
+      border-radius: 20px; overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform .35s, box-shadow .35s;
+      display: flex; flex-direction: column;
+    }
+    .produit-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 56px rgba(13,27,42,.12);
+    }
+    .produit-img-wrap {
+      position: relative; overflow: hidden;
+      aspect-ratio: 4/3;
+    }
+    .produit-img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block;
+      transition: transform .5s;
+    }
+    .produit-card:hover .produit-img { transform: scale(1.06); }
+
+    /* product ref badge */
+    .produit-ref {
+      position: absolute; top: 10px; left: 10px;
+      background: rgba(13,27,42,.75);
+      color: rgba(255,255,255,.9);
+      font-size: .68rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .25rem .65rem; border-radius: 50px;
+      backdrop-filter: blur(6px);
+    }
+    .produit-badge-new {
+      position: absolute; top: 10px; right: 10px;
+      background: var(--orange);
+      color: var(--white);
+      font-size: .68rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: .25rem .65rem; border-radius: 50px;
+    }
+    .produit-body { padding: 1.3rem 1.3rem .8rem; flex: 1; }
+    .produit-cat {
+      font-size: .7rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: .5rem;
+    }
+    .produit-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.18rem; font-weight: 700;
+      color: var(--navy); margin-bottom: .45rem;
+    }
+    .produit-desc { font-size: .84rem; color: var(--muted); line-height: 1.6; }
+
+    .produit-footer {
+      padding: 0 1.3rem 1.3rem;
+      display: flex; flex-direction: column; gap: .75rem;
+    }
+    .produit-status-row {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .produit-tag {
+      display: inline-flex; align-items: center; gap: .35rem;
+      font-size: .74rem; font-weight: 600;
+      padding: .28rem .75rem; border-radius: 50px;
+    }
+    .tag-dispo { background: rgba(45,184,126,.1); color: var(--green); }
+
+    /* Action buttons */
+    .produit-actions {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .5rem;
+    }
+    .btn-wa {
+      display: inline-flex; align-items: center; justify-content: center; gap: .35rem;
+      background: var(--wa); color: var(--white);
+      text-decoration: none; font-size: .75rem; font-weight: 600;
+      padding: .55rem .5rem; border-radius: 10px;
+      transition: all .2s;
+    }
+    .btn-wa:hover { background: #1da851; transform: translateY(-1px); }
+    .btn-call {
+      display: inline-flex; align-items: center; justify-content: center; gap: .35rem;
+      background: var(--call); color: var(--white);
+      text-decoration: none; font-size: .75rem; font-weight: 600;
+      padding: .55rem .5rem; border-radius: 10px;
+      transition: all .2s;
+    }
+    .btn-call:hover { background: #0a58ca; transform: translateY(-1px); }
+    .btn-order {
+      display: inline-flex; align-items: center; justify-content: center; gap: .35rem;
+      background: var(--navy); color: var(--white);
+      text-decoration: none; font-size: .75rem; font-weight: 600;
+      padding: .55rem .5rem; border-radius: 10px;
+      transition: all .2s;
+    }
+    .btn-order:hover { background: var(--navy2); transform: translateY(-1px); }
+
+    /* ── COMMENT CA MARCHE ── */
+    .comment { background: var(--navy); }
+    .comment .section-title { color: var(--white); }
+    .comment .section-desc { color: rgba(255,255,255,.55); }
+    .comment .section-tag { background: rgba(255,107,53,.2); }
+    .steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; position: relative; }
+    .steps::before {
+      content: ''; position: absolute;
+      top: 36px;
+      left: calc(12.5% + 36px); right: calc(12.5% + 36px);
+      height: 1px; background: rgba(255,107,53,.3);
+    }
+    .step-card { text-align: center; padding: 1.5rem 1rem; }
+    .step-num {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: rgba(255,107,53,.1);
+      border: 1.5px solid rgba(255,107,53,.35);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 700; color: var(--orange);
+    }
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: .5rem;
+    }
+    .step-desc { font-size: .84rem; color: rgba(255,255,255,.5); line-height: 1.6; }
+
+    /* ── LIVRAISON ── */
+    .livraison { background: var(--white); }
+    .livraison-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 5rem; }
+    .livraison-img-wrap { border-radius: 24px; overflow: hidden; box-shadow: 0 24px 56px rgba(13,27,42,.1); }
+    .livraison-img-wrap img { width: 100%; display: block; }
+    .livraison-options { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2rem; }
+    .livraison-option {
+      display: flex; align-items: flex-start; gap: 1rem;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.2rem 1.4rem;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .livraison-option:hover { border-color: var(--orange); box-shadow: 0 4px 20px rgba(255,107,53,.1); }
+    .livraison-option-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .icon-orange { background: rgba(255,107,53,.1); }
+    .icon-blue   { background: rgba(13,110,253,.08); }
+    .livraison-option-title { font-weight: 600; color: var(--navy); font-size: .95rem; margin-bottom: .25rem; }
+    .livraison-option-desc { font-size: .84rem; color: var(--muted); line-height: 1.55; }
+
+    /* ── TEMOIGNAGES ── */
+    .temoignages { background: var(--bg2); }
+    .temoignages-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    .temoignage-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 20px; padding: 1.8rem;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .temoignage-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(13,27,42,.08); }
+    .stars { display: flex; gap: 3px; margin-bottom: 1rem; }
+    .star-svg { width: 16px; height: 16px; fill: var(--gold); }
+    .temoignage-text { font-size: .88rem; color: var(--muted); line-height: 1.75; margin-bottom: 1.3rem; font-style: italic; }
+    .temoignage-author { display: flex; align-items: center; gap: .8rem; }
+    .author-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--orange), var(--peach));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif; font-weight: 700;
+      font-size: .92rem; color: var(--white); flex-shrink: 0;
+    }
+    .author-name { font-weight: 600; font-size: .88rem; color: var(--navy); }
+    .author-loc  { font-size: .76rem; color: var(--muted); margin-top: .1rem; }
+
+    /* ── CTA BAND ── */
+    .cta-band {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+      padding: 4rem 2rem; text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-band::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,107,53,.06) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,107,53,.06) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+    .cta-band > div { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+    .cta-band h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.6rem); font-weight: 700;
+      color: var(--white); margin-bottom: .8rem;
+    }
+    .cta-band p { font-size: 1rem; color: rgba(255,255,255,.7); margin-bottom: 2rem; }
+    .cta-band-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-white {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--white); color: var(--orange);
+      text-decoration: none; font-weight: 700; font-size: .92rem;
+      padding: .9rem 2.2rem; border-radius: 50px;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(0,0,0,.2);
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,.25); }
+    .btn-wa-big {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--wa); color: var(--white);
+      text-decoration: none; font-weight: 700; font-size: .92rem;
+      padding: .9rem 2.2rem; border-radius: 50px;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(37,211,102,.35);
+    }
+    .btn-wa-big:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(37,211,102,.45); }
+
+    /* ── CONTACT ── */
+    .contact { background: var(--white); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-info { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1.2rem; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 16px;
+      transition: border-color .2s;
+      text-decoration: none;
+    }
+    .contact-item:hover { border-color: var(--orange); }
+    .contact-item-icon {
+      width: 44px; height: 44px;
+      background: rgba(255,107,53,.1); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .contact-item-label { font-size: .74rem; color: var(--muted); margin-bottom: .2rem; font-weight: 500; text-transform: uppercase; letter-spacing: .07em; }
+    .contact-item-value { font-size: .9rem; font-weight: 600; color: var(--navy); }
+
+    /* social contact items */
+    .contact-item.wa-item { border-color: rgba(37,211,102,.3); }
+    .contact-item.wa-item .contact-item-icon { background: rgba(37,211,102,.1); }
+    .contact-item.fb-item { border-color: rgba(24,119,242,.3); }
+    .contact-item.fb-item .contact-item-icon { background: rgba(24,119,242,.1); }
+    .contact-item.call-item .contact-item-icon { background: rgba(13,110,253,.1); }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: .5rem; }
+    .form-group label { font-size: .8rem; font-weight: 600; color: var(--navy); letter-spacing: .02em; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%; padding: .75rem 1rem;
+      border: 1.5px solid var(--border); border-radius: 12px;
+      font-family: 'Outfit', sans-serif; font-size: .9rem;
+      color: var(--navy); background: var(--bg);
+      transition: border-color .2s, box-shadow .2s; outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(255,107,53,.12);
+      background: var(--white);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .btn-submit {
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      background: var(--orange); color: var(--white);
+      border: none; cursor: pointer;
+      font-family: 'Outfit', sans-serif; font-weight: 600; font-size: .92rem;
+      padding: .9rem 2rem; border-radius: 50px;
+      transition: background .2s, transform .2s;
+      box-shadow: 0 6px 20px rgba(255,107,53,.35);
+    }
+    .btn-submit:hover { background: #e0582a; transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--navy); color: rgba(255,255,255,.65); padding: 4rem 2rem 1.5rem; }
+    .footer-inner { max-width: 1260px; margin: 0 auto; }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+      padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .footer-logo { display: flex; align-items: center; gap: .6rem; margin-bottom: 1rem; }
+    .footer-logo-mark {
+      width: 32px; height: 32px; background: var(--orange);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    }
+    .footer-logo-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 700; color: var(--white);
+    }
+    .footer-brand p { font-size: .86rem; line-height: 1.75; }
+    .footer-col h4 {
+      font-size: .78rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--white); margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+    .footer-col ul a {
+      text-decoration: none; font-size: .86rem;
+      color: rgba(255,255,255,.55); transition: color .2s;
+    }
+    .footer-col ul a:hover { color: var(--orange); }
+    .footer-bottom {
+      padding-top: 1.5rem; display: flex;
+      align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-bottom p { font-size: .78rem; }
+    .footer-bottom a { color: var(--orange); text-decoration: none; }
+    .footer-socials { display: flex; gap: .8rem; }
+    .social-link {
+      width: 36px; height: 36px; border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.15);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; transition: border-color .2s, background .2s;
+    }
+    .social-link:hover { border-color: var(--orange); background: rgba(255,107,53,.1); }
+    .social-link svg { width: 16px; height: 16px; }
+    .social-link.fb svg { fill: rgba(255,255,255,.7); }
+    .social-link.wa svg { fill: rgba(255,255,255,.7); }
+    .social-link.ig svg { fill: none; stroke: rgba(255,255,255,.7); stroke-width: 1.5; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* shimmer on product card hover */
+    .produit-img-wrap::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,.12) 50%, transparent 60%);
+      opacity: 0; transition: opacity .4s;
+    }
+    .produit-card:hover .produit-img-wrap::after { opacity: 1; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; padding-top: 120px; }
+      .hero-visual { display: none; }
+      .avantages-grid { grid-template-columns: 1fr 1fr; }
+      .produits-grid  { grid-template-columns: 1fr 1fr; }
+      .steps { grid-template-columns: 1fr 1fr; }
+      .steps::before { display: none; }
+      .livraison-grid { grid-template-columns: 1fr; }
+      .livraison-img-wrap { display: none; }
+      .temoignages-grid { grid-template-columns: 1fr 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .stats-inner { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .avantages-grid { grid-template-columns: 1fr; }
+      .produits-grid  { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .temoignages-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; align-items: center; text-align: center; }
+      .produit-actions { grid-template-columns: 1fr 1fr 1fr; }
+      .cta-band-btns { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/261340972501" target="_blank" class="wa-float" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+  </svg>
+</a>
+
+<!-- HEADER -->
+<header id="header">
+  <nav>
+    <a href="#" class="logo-wrap">
+      <div class="logo-svg-mark">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+      </div>
+      <span class="logo-text">Ram<span>beso</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#avantages">Avantages</a></li>
+      <li><a href="#produits">Produits</a></li>
+      <li><a href="#comment">Comment ca marche</a></li>
+      <li><a href="#livraison">Livraison</a></li>
+      <li><a href="#contact" class="btn-nav">Nous contacter</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#avantages">Avantages</a>
+  <a href="#produits">Produits</a>
+  <a href="#comment">Comment ca marche</a>
+  <a href="#livraison">Livraison</a>
+  <a href="#contact">Nous contacter</a>
+</div>
+
+<main>
+  <!-- HERO -->
+  <div class="hero-wrap">
+    <div class="hero-orbs">
+      <div class="orb orb1"></div>
+      <div class="orb orb2"></div>
+      <div class="orb orb3"></div>
+    </div>
+    <div class="hero-grid"></div>
+    <div class="hero-particles" id="particles"></div>
+
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Boutique en ligne securisee a Madagascar
+        </div>
+        <h1 class="hero-title">
+          Le confort du shopping,<br /><span class="accent">la securite</span> en plus
+        </h1>
+        <p class="hero-desc">
+          Rambeso vous propose plus de 50 produits stylés, utiles et pratiques, livres en toute securite a domicile ou a retirer aupres de notre prestataire de transport pour les clients en province.
+        </p>
+        <div class="hero-cta">
+          <a href="#produits" class="btn-primary">
+            Decouvrir nos produits
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="https://wa.me/261340972501" target="_blank" class="btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+            Commander via WhatsApp
+          </a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-showcase">
+          <div class="showcase-card">
+            <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600&q=80" alt="Mode" />
+            <div class="showcase-label">Mode & Style</div>
+          </div>
+          <div class="showcase-card">
+            <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&q=80" alt="Maison" />
+            <div class="showcase-label">Maison</div>
+          </div>
+          <div class="showcase-card">
+            <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&q=80" alt="Tech" />
+            <div class="showcase-label">High-Tech</div>
+          </div>
+          <div class="showcase-card">
+            <img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?w=600&q=80" alt="Beaute" />
+            <div class="showcase-label">Beaute</div>
+          </div>
+        </div>
+        <div class="float-pill p1">
+          <div class="pill-dot" style="background:#2DB87E;"></div>
+          Livraison securisee
+        </div>
+        <div class="float-pill p2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          100% fiable
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat-item reveal">
+        <div class="stat-num">Qualite</div>
+        <div class="stat-label">Prix imbattables</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Produits disponibles</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num">48h</div>
+        <div class="stat-label">Delai de livraison moyen</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Transactions securisees</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AVANTAGES -->
+  <section class="avantages" id="avantages">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-tag">Pourquoi Rambeso</span>
+        <h2 class="section-title">Un service pense pour vous</h2>
+        <p class="section-desc">Nous mettons tout en oeuvre pour que votre experience d'achat soit simple, securisee et agreable.</p>
+      </div>
+      <div class="avantages-grid">
+        <div class="avantage-card reveal">
+          <div class="avantage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="avantage-title">Achats 100% securises</div>
+          <p class="avantage-desc">Chaque transaction est protegee et chaque colis est suivi jusqu'a votre reception, sans risque ni surprise.</p>
+        </div>
+        <div class="avantage-card reveal">
+          <div class="avantage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="avantage-title">Livraison rapide</div>
+          <p class="avantage-desc">Recevez vos articles a domicile en un minimum de temps. Nous nous engageons sur des delais courts et respectes.</p>
+        </div>
+        <div class="avantage-card reveal">
+          <div class="avantage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div class="avantage-title">Produits soigneusement selectionnes</div>
+          <p class="avantage-desc">Chaque produit est choisi pour sa qualite, son utilite et son style. Nous ne proposons que le meilleur.</p>
+        </div>
+        <div class="avantage-card reveal">
+          <div class="avantage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div class="avantage-title">Disponible en province</div>
+          <p class="avantage-desc">Vous etes en province ? Retirez vos commandes aupres de notre prestataire de transport le plus proche de chez vous.</p>
+        </div>
+        <div class="avantage-card reveal">
+          <div class="avantage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div class="avantage-title">Service client disponible</div>
+          <p class="avantage-desc">Notre equipe est a votre disposition pour repondre a toutes vos questions et vous accompagner lors de votre achat.</p>
+        </div>
+        <div class="avantage-card reveal">
+          <div class="avantage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+          <div class="avantage-title">Suivi de commande</div>
+          <p class="avantage-desc">Suivez l'etat de votre commande en temps reel, de la confirmation jusqu'a la reception. Vous etes toujours informe.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUITS -->
+  <section class="produits" id="produits">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-tag">Notre catalogue</span>
+        <h2 class="section-title">Des produits pour chaque besoin</h2>
+        <p class="section-desc">Styles, pratiques et utiles — nos articles sont selectionnes avec soin pour enrichir votre quotidien.</p>
+      </div>
+
+      <div class="produits-filters reveal">
+        <button class="filter-btn active" onclick="filterProduits(this,'all')">Tous les produits</button>
+        <button class="filter-btn" onclick="filterProduits(this,'mode')">Mode</button>
+        <button class="filter-btn" onclick="filterProduits(this,'maison')">Maison</button>
+        <button class="filter-btn" onclick="filterProduits(this,'tech')">High-Tech</button>
+        <button class="filter-btn" onclick="filterProduits(this,'beaute')">Beaute</button>
+        <button class="filter-btn" onclick="filterProduits(this,'sport')">Sport</button>
+        <button class="filter-btn" onclick="filterProduits(this,'sac')">Sacs</button>
+        <button class="filter-btn" onclick="filterProduits(this,'enfant')">Enfants</button>
+        <button class="filter-btn" onclick="filterProduits(this,'cuisine')">Cuisine</button>
+      </div>
+
+      <div class="produits-grid" id="produits-grid">
+
+        <!-- Produit 1 -->
+        <div class="produit-card reveal" data-cat="mode">
+          <div class="produit-img-wrap">
+            <img class="produit-img" src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600&q=80" alt="Vetements tendance" />
+            <span class="produit-ref">REF-001</span>
+            <span class="produit-badge-new">Nouveau</span>
+          </div>
+          <div class="produit-body">
+            <div class="produit-cat">Mode et accessoires</div>
+            <div class="produit-name">Vetements et accessoires tendance</div>
+            <p class="produit-desc">Une selection de pieces modernes et elegantes pour un style affirme au quotidien.</p>
+          </div>
+          <div class="produit-footer">
+            <div class="produit-status-row">
+              <span class="produit-tag tag-dispo">
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="#2DB87E"><circle cx="12" cy="12" r="10"/></svg>
+                Disponible
+              </span>
+            </div>
+            <div class="produit-actions">
+              <a href="https://wa.me/261340972501?text=Bonjour%20Rambeso%2C%20je%20suis%20interesse%20par%20REF-001%20(Vetements%20tendance)" target="_blank" class="btn-wa">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                WhatsApp
+              </a>
+              <a href="tel:+261340972501" class="btn-call">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                Appeler
+              </a>
+              <a href="#contact" class="btn-order">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                Commander
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 2 -->
+        <div class="produit-card reveal" data-cat="sport">
+          <div class="produit-img-wrap">
+            <img class="produit-img" src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=600&q=80" alt="Sport et fitness" />
+            <span class="produit-ref">REF-002</span>
+          </div>
+          <div class="produit-body">
+            <div class="produit-cat">Sport et fitness</div>
+            <div class="produit-name">Equipements sport et bien-etre</div>
+            <p class="produit-desc">Chaussures, tenues et accessoires pour rester actif et en forme dans votre quotidien.</p>
+          </div>
+          <div class="produit-footer">
+            <div class="produit-status-row">
+              <span class="produit-tag tag-dispo"><svg width="8" height="8" viewBox="0 0 24 24" fill="#2DB87E"><circle cx="12" cy="12" r="10"/></svg>Disponible</span>
+            </div>
+            <div class="produit-actions">
+              <a href="https://wa.me/261340972501?text=Bonjour%20Rambeso%2C%20je%20suis%20interesse%20par%20REF-002%20(Equipements%20sport)" target="_blank" class="btn-wa"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>WhatsApp</a>
+              <a href="tel:+261340972501" class="btn-call"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Appeler</a>
+              <a href="#contact" class="btn-order"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Commander</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 3 -->
+        <div class="produit-card reveal" data-cat="maison">
+          <div class="produit-img-wrap">
+            <img class="produit-img" src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&q=80" alt="Maison et decoration" />
+            <span class="produit-ref">REF-003</span>
+          </div>
+          <div class="produit-body">
+            <div class="produit-cat">Maison et decoration</div>
+            <div class="produit-name">Articles maison et decoration</div>
+            <p class="produit-desc">Des articles utiles et esthetiques pour rendre votre interieur plus agreable et fonctionnel.</p>
+          </div>
+          <div class="produit-footer">
+            <div class="produit-status-row"><span class="produit-tag tag-dispo"><svg width="8" height="8" viewBox="0 0 24 24" fill="#2DB87E"><circle cx="12" cy="12" r="10"/></svg>Disponible</span></div>
+            <div class="produit-actions">
+              <a href="https://wa.me/261340972501?text=Bonjour%20Rambeso%2C%20je%20suis%20interesse%20par%20REF-003%20(Maison%20decoration)" target="_blank" class="btn-wa"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>WhatsApp</a>
+              <a href="tel:+261340972501" class="btn-call"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Appeler</a>
+              <a href="#contact" class="btn-order"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Commander</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 4 -->
+        <div class="produit-card reveal" data-cat="tech">
+          <div class="produit-img-wrap">
+            <img class="produit-img" src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&q=80" alt="Electronique" />
+            <span class="produit-ref">REF-004</span>
+            <span class="produit-badge-new">Populaire</span>
+          </div>
+          <div class="produit-body">
+            <div class="produit-cat">Electronique et high-tech</div>
+            <div class="produit-name">Gadgets et accessoires high-tech</div>
+            <p class="produit-desc">Accessoires high-tech pratiques et innovants pour simplifier et moderniser votre quotidien.</p>
+          </div>
+          <div class="produit-footer">
+            <div class="produit-status-row"><span class="produit-tag tag-dispo"><svg width="8" height="8" viewBox="0 0 24 24" fill="#2DB87E"><circle cx="12" cy="12" r="10"/></svg>Disponible</span></div>
+            <div class="produit-actions">
+              <a href="https://wa.me/261340972501?text=Bonjour%20Rambeso%2C%20je%20suis%20interesse%20par%20REF-004%20(Gadgets%20high-tech)" target="_blank" class="btn-wa"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>WhatsApp</a>
+              <a href="tel:+261340972501" class="btn-call"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Appeler</a>
+              <a href="#contact" class="btn-order"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Commander</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 5 -->
+        <div class="produit-card reveal" data-cat="beaute">
+          <div class="produit-img-wrap">
+            <img class="produit-img" src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?w=600&q=80" alt="Beaute et soin" />
+            <span class="produit-ref">REF-005</span>
+          </div>
+          <div class="produit-body">
+            <div class="produit-cat">Beaute et soin</div>
+            <div class="produit-name">Produits de beaute et bien-etre</div>
+            <p class="produit-desc">Prenez soin de vous avec une selection de produits de beaute et de soin soigneusement choisis.</p>
+          </div>
+          <div class="produit-footer">
+            <div class="produit-status-row"><span class="produit-tag tag-dispo"><svg width="8" height="8" viewBox="0 0 24 24" fill="#2DB87E"><circle cx="12" cy="12" r="10"/></svg>Disponible</span></div>
+            <div class="produit-actions">
+              <a href="https://wa.me/261340972501?text=Bonjour%20Rambeso%2C%20je%20suis%20interesse%20par%20REF-005%20(Beaute%20et%20soin)" target="_blank" class="btn-wa"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>WhatsApp</a>
+              <a href="tel:+261340972501" class="btn-call"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Appeler</a>
+              <a href="#contact" class="btn-order"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Commander</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 6 -->
+        <div class="produit-card reveal" data-cat="sac">
+          <div class="produit-img-wrap">
+            <img class="produit-img" src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80" alt="Sacs et bagages" />
+            <span class="produit-ref">REF-006</span>
+          </div>
+          <div class="produit-body">
+            <div class="produit-cat">Sacs et bagages</div>
+            <div class="produit-name">Sacs a main et sacs de voyage</div>
+            <p class="produit-desc">Des sacs stylises et robustes pour accompagner vos deplacements au quotidien ou en voyage.</p>
+          </div>
+          <div class="produit-footer">
+            <div class="produit-status-row"><span class="produit-tag tag-dispo"><svg width="8" height="8" viewBox="0 0 24 24" fill="#2DB87E"><circle cx="12" cy="12" r="10"/></svg>Disponible</span></div>
+            <div class="produit-actions">
+              <a href="https://wa.me/261340972501?text=Bonjour%20Rambeso%2C%20je%20suis%20interesse%20par%20REF-006%20(Sacs%20et%20bagages)" target="_blank" class="btn-wa"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>WhatsApp</a>
+              <a href="tel:+261340972501" class="btn-call"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Appeler</a>
+              <a href="#contact" class="btn-order"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Commander</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 7 -->
+        <div class="produit-card reveal" data-cat="enfant">
+          <div class="produit-img-wrap">
+            <img class="produit-img" src="https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=600&q=80" alt="Articles enfants" />
+            <span class="produit-ref">REF-007</span>
+            <span class="produit-badge-new">Nouveau</span>
+          </div>
+          <div class="produit-body">
+            <div class="produit-cat">Articles enfants</div>
+            <div class="produit-name">Jouets et accessoires enfants</div>
+            <p class="produit-desc">Une gamme de jouets educatifs et d'accessoires pour le bien-etre et l'eveil de vos enfants.</p>
+          </div>
+          <div class="produit-footer">
+            <div class="produit-status-row"><span class="produit-tag tag-dispo"><svg width="8" height="8" viewBox="0 0 24 24" fill="#2DB87E"><circle cx="12" cy="12" r="10"/></svg>Disponible</span></div>
+            <div class="produit-actions">
+              <a href="https://wa.me/261340972501?text=Bonjour%20Rambeso%2C%20je%20suis%20interesse%20par%20REF-007%20(Jouets%20enfants)" target="_blank" class="btn-wa"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>WhatsApp</a>
+              <a href="tel:+261340972501" class="btn-call"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Appeler</a>
+              <a href="#contact" class="btn-order"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Commander</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 8 -->
+        <div class="produit-card reveal" data-cat="cuisine">
+          <div class="produit-img-wrap">
+            <img class="produit-img" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80" alt="Cuisine et art de table" />
+            <span class="produit-ref">REF-008</span>
+          </div>
+          <div class="produit-body">
+            <div class="produit-cat">Cuisine et art de table</div>
+            <div class="produit-name">Ustensiles et accessoires cuisine</div>
+            <p class="produit-desc">Tous les essentiels pour equiper votre cuisine avec style : ustensiles, moules, gadgets culinaires et plus encore.</p>
+          </div>
+          <div class="produit-footer">
+            <div class="produit-status-row"><span class="produit-tag tag-dispo"><svg width="8" height="8" viewBox="0 0 24 24" fill="#2DB87E"><circle cx="12" cy="12" r="10"/></svg>Disponible</span></div>
+            <div class="produit-actions">
+              <a href="https://wa.me/261340972501?text=Bonjour%20Rambeso%2C%20je%20suis%20interesse%20par%20REF-008%20(Cuisine%20et%20art%20de%20table)" target="_blank" class="btn-wa"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>WhatsApp</a>
+              <a href="tel:+261340972501" class="btn-call"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Appeler</a>
+              <a href="#contact" class="btn-order"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Commander</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Produit 9 -->
+        <div class="produit-card reveal" data-cat="mode">
+          <div class="produit-img-wrap">
+            <img class="produit-img" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80" alt="Chaussures" />
+            <span class="produit-ref">REF-009</span>
+            <span class="produit-badge-new">Populaire</span>
+          </div>
+          <div class="produit-body">
+            <div class="produit-cat">Mode et accessoires</div>
+            <div class="produit-name">Chaussures et sneakers tendance</div>
+            <p class="produit-desc">Une collection de chaussures modernes pour tous les styles, du casual au elegant, a des prix competitifs.</p>
+          </div>
+          <div class="produit-footer">
+            <div class="produit-status-row"><span class="produit-tag tag-dispo"><svg width="8" height="8" viewBox="0 0 24 24" fill="#2DB87E"><circle cx="12" cy="12" r="10"/></svg>Disponible</span></div>
+            <div class="produit-actions">
+              <a href="https://wa.me/261340972501?text=Bonjour%20Rambeso%2C%20je%20suis%20interesse%20par%20REF-009%20(Chaussures%20tendance)" target="_blank" class="btn-wa"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>WhatsApp</a>
+              <a href="tel:+261340972501" class="btn-call"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Appeler</a>
+              <a href="#contact" class="btn-order"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Commander</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Voir plus -->
+      <div style="text-align:center; margin-top:2.5rem;" class="reveal">
+        <a href="https://wa.me/261340972501?text=Bonjour%2C%20je%20souhaite%20voir%20le%20catalogue%20complet%20Rambeso" target="_blank" class="btn-primary">
+          Voir tout le catalogue (50+ produits)
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMENT CA MARCHE -->
+  <section class="comment" id="comment">
+    <div class="section-inner">
+      <div class="section-head reveal" style="text-align:center; max-width:600px; margin:0 auto 3rem;">
+        <span class="section-tag">Le processus</span>
+        <h2 class="section-title">Comment ca marche</h2>
+        <p class="section-desc" style="margin:0 auto; color:rgba(255,255,255,.55);">Commander chez Rambeso est simple, rapide et securise.</p>
+      </div>
+      <div class="steps">
+        <div class="step-card reveal">
+          <div class="step-num">1</div>
+          <div class="step-title">Choisissez votre produit</div>
+          <p class="step-desc">Parcourez notre catalogue et identifiez l'article qui vous convient. Contactez-nous pour en savoir plus.</p>
+        </div>
+        <div class="step-card reveal">
+          <div class="step-num">2</div>
+          <div class="step-title">Passez votre commande</div>
+          <p class="step-desc">Transmettez votre commande via WhatsApp, appel telephonique ou notre formulaire de contact.</p>
+        </div>
+        <div class="step-card reveal">
+          <div class="step-num">3</div>
+          <div class="step-title">Confirmation et traitement</div>
+          <p class="step-desc">Vous recevez une confirmation. Nous preparons votre colis avec soin avant l'expedition.</p>
+        </div>
+        <div class="step-card reveal">
+          <div class="step-num">4</div>
+          <div class="step-title">Reception de votre colis</div>
+          <p class="step-desc">Livraison a domicile ou retrait aupres de notre prestataire en province. Votre satisfaction est notre priorite.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVRAISON -->
+  <section class="livraison" id="livraison">
+    <div class="section-inner">
+      <div class="livraison-grid">
+        <div class="livraison-img-wrap reveal">
+          <img src="https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=800&q=80" alt="Livraison Rambeso" />
+        </div>
+        <div>
+          <div class="reveal">
+            <span class="section-tag">Livraison et retrait</span>
+            <h2 class="section-title">Recevez vos achats ou bon vous semble</h2>
+            <p class="section-desc">Que vous soyez dans la capitale ou en province, nous avons une solution adaptee pour que vos commandes vous parviennent en toute securite.</p>
+          </div>
+          <div class="livraison-options">
+            <div class="livraison-option reveal">
+              <div class="livraison-option-icon icon-orange"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+              <div>
+                <div class="livraison-option-title">Livraison a domicile</div>
+                <p class="livraison-option-desc">Vos commandes sont livrees directement a votre adresse. Un service pratique et securise pour vous eviter tout deplacement.</p>
+              </div>
+            </div>
+            <div class="livraison-option reveal">
+              <div class="livraison-option-icon icon-blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D6EFD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+              <div>
+                <div class="livraison-option-title">Retrait en province</div>
+                <p class="livraison-option-desc">Vous etes en province ? Retirez votre colis aupres de notre prestataire de transport partenaire dans votre ville.</p>
+              </div>
+            </div>
+            <div class="livraison-option reveal">
+              <div class="livraison-option-icon icon-orange"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+              <div>
+                <div class="livraison-option-title">Colis assures et suivis</div>
+                <p class="livraison-option-desc">Chaque colis est soigneusement emballe et suivi de la preparation jusqu'a votre reception. Zero stress, zero surprise.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEMOIGNAGES -->
+  <section class="temoignages" id="temoignages">
+    <div class="section-inner">
+      <div class="section-head reveal" style="text-align:center; max-width:600px; margin:0 auto 3rem;">
+        <span class="section-tag">Ils nous font confiance</span>
+        <h2 class="section-title">Ce que disent nos clients</h2>
+        <p class="section-desc" style="margin:0 auto;">La satisfaction de nos clients est notre plus belle recompense.</p>
+      </div>
+      <div class="temoignages-grid">
+        <div class="temoignage-card reveal">
+          <div class="stars">
+            <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="temoignage-text">"Produit recu en parfait etat et dans les delais annonces. L'equipe est tres reactive et professionnelle. Je recommande vivement Rambeso !"</p>
+          <div class="temoignage-author">
+            <div class="author-avatar">SM</div>
+            <div><div class="author-name">Sandrine M.</div><div class="author-loc">Antananarivo</div></div>
+          </div>
+        </div>
+        <div class="temoignage-card reveal">
+          <div class="stars">
+            <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="temoignage-text">"Je suis en province et j'avais des craintes pour la livraison. Tout s'est parfaitement passe avec le prestataire de transport. Service vraiment fiable."</p>
+          <div class="temoignage-author">
+            <div class="author-avatar">RT</div>
+            <div><div class="author-name">Rija T.</div><div class="author-loc">Toamasina</div></div>
+          </div>
+        </div>
+        <div class="temoignage-card reveal">
+          <div class="stars">
+            <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p class="temoignage-text">"Les produits sont exactement comme presentes. La qualite est au rendez-vous et l'emballage est tres soigne. Je suis pleinement satisfaite."</p>
+          <div class="temoignage-author">
+            <div class="author-avatar">LR</div>
+            <div><div class="author-name">Lalaina R.</div><div class="author-loc">Fianarantsoa</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <div class="cta-band">
+    <div>
+      <h2 class="reveal">Pret a commander ?</h2>
+      <p class="reveal">Contactez-nous des maintenant pour une experience de shopping securisee et agreable.</p>
+      <div class="cta-band-btns reveal">
+        <a href="https://wa.me/261340972501" target="_blank" class="btn-wa-big">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+          Commander via WhatsApp
+        </a>
+        <a href="#contact" class="btn-white">
+          Nous contacter
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="section-inner">
+      <div class="contact-grid">
+        <div>
+          <div class="reveal">
+            <span class="section-tag">Contactez-nous</span>
+            <h2 class="section-title">Nous sommes a votre ecoute</h2>
+            <p class="section-desc">Pour toute question, commande ou information, notre equipe est disponible pour vous repondre dans les meilleurs delais.</p>
+          </div>
+          <div class="contact-info">
+            <!-- WhatsApp -->
+            <a href="https://wa.me/261340972501" target="_blank" class="contact-item wa-item reveal">
+              <div class="contact-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+              </div>
+              <div>
+                <div class="contact-item-label">WhatsApp</div>
+                <div class="contact-item-value">034 09 725 01</div>
+              </div>
+            </a>
+            <!-- Appel -->
+            <a href="tel:+261340972501" class="contact-item call-item reveal">
+              <div class="contact-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D6EFD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <div>
+                <div class="contact-item-label">Appel direct</div>
+                <div class="contact-item-value">034 09 725 01</div>
+              </div>
+            </a>
+            <!-- Facebook -->
+            <a href="https://www.facebook.com/rambeso.mg" target="_blank" class="contact-item fb-item reveal">
+              <div class="contact-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </div>
+              <div>
+                <div class="contact-item-label">Facebook</div>
+                <div class="contact-item-value">rambeso.mg</div>
+              </div>
+            </a>
+            <!-- Email -->
+            <div class="contact-item reveal">
+              <div class="contact-item-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div>
+                <div class="contact-item-label">Email</div>
+                <div class="contact-item-value">contact@rambeso.online</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="contact-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nom">Nom complet</label>
+                <input type="text" id="nom" placeholder="Votre nom" />
+              </div>
+              <div class="form-group">
+                <label for="tel">Telephone</label>
+                <input type="tel" id="tel" placeholder="034 XX XXX XX" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Adresse email</label>
+              <input type="email" id="email" placeholder="votre@email.com" />
+            </div>
+            <div class="form-group">
+              <label for="sujet">Sujet</label>
+              <select id="sujet">
+                <option value="">Selectionnez un sujet</option>
+                <option>Passer une commande</option>
+                <option>Informations sur un produit</option>
+                <option>Suivi de commande</option>
+                <option>Livraison et retrait</option>
+                <option>Autre</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" placeholder="Decrivez votre demande..."></textarea>
+            </div>
+            <button class="btn-submit" type="button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Envoyer le message
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="footer-logo-mark">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+          </div>
+          <span class="footer-logo-text">Rambeso</span>
+        </div>
+        <p>Le confort du shopping, la securite en plus. Des produits styles, utiles et pratiques, livres en toute securite a domicile ou a retirer en province.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#avantages">Nos avantages</a></li>
+          <li><a href="#produits">Catalogue produits</a></li>
+          <li><a href="#comment">Comment ca marche</a></li>
+          <li><a href="#livraison">Livraison</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Informations</h4>
+        <ul>
+          <li><a href="#">Conditions generales</a></li>
+          <li><a href="#">Politique de confidentialite</a></li>
+          <li><a href="#">Politique de livraison</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="https://wa.me/261340972501" target="_blank">034 09 725 01 (WhatsApp)</a></li>
+          <li><a href="tel:+261340972501">034 09 725 01 (Appel)</a></li>
+          <li><a href="mailto:contact@rambeso.online">contact@rambeso.online</a></li>
+          <li><a href="#">Antananarivo, Madagascar</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Rambeso. Tous droits reserves. Developpe par <a href="https://www.ankinomg.com" target="_blank" rel="noopener">Ankino MG</a>.</p>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/rambeso.mg" target="_blank" class="social-link fb" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="https://wa.me/261340972501" target="_blank" class="social-link wa" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        </a>
+        <a href="#" class="social-link ig" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Header scroll
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 70);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Particle system
+  (function createParticles() {
+    const container = document.getElementById('particles');
+    const colors = ['#FF6B35','#FF8C5A','#FFB89A','#C9963A','#ffffff'];
+    for (let i = 0; i < 28; i++) {
+      const span = document.createElement('span');
+      const size = Math.random() * 6 + 2;
+      span.style.cssText = `
+        width: ${size}px;
+        height: ${size}px;
+        background: ${colors[Math.floor(Math.random() * colors.length)]};
+        left: ${Math.random() * 100}%;
+        animation-duration: ${Math.random() * 12 + 8}s;
+        animation-delay: ${Math.random() * -15}s;
+      `;
+      container.appendChild(span);
+    }
+  })();
+
+  // Product filter
+  function filterProduits(btn, cat) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.produit-card').forEach(card => {
+      if (cat === 'all' || card.dataset.cat === cat) {
+        card.style.display = '';
+        card.style.animation = 'fadeUp .4s ease both';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  // Animated counter for stats
+  function animateCounter(el, target, suffix) {
+    let start = 0;
+    const duration = 1500;
+    const step = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) { start = target; clearInterval(timer); }
+      el.textContent = Math.floor(start) + suffix;
+    }, 16);
+  }
+
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const txt = el.textContent;
+        if (txt.includes('50+')) animateCounter(el, 50, '+');
+        else if (txt.includes('48h')) { /* keep */ }
+        else if (txt.includes('100%')) animateCounter(el, 100, '%');
+        statsObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.stat-num').forEach(el => statsObserver.observe(el));
+</script>
+</body>
+</html>
