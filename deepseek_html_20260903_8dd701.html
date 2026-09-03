@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rambeso - Boutique en ligne Madagascar</title>
+  <meta name="description" content="Rambeso propose des produits stylés, utiles et pratiques, livrés en toute sécurité à domicile à Madagascar." />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #D94F2A;
+      --primary-dark: #B83D1C;
+      --primary-light: #F5D6CC;
+      --dark: #0F1A2C;
+      --dark-light: #1A2A40;
+      --gray: #6B7A8F;
+      --gray-light: #E8EDF2;
+      --bg: #F5F7FA;
+      --white: #FFFFFF;
+      --wa: #25D366;
+      --shadow-sm: 0 2px 8px rgba(15,26,44,0.04);
+      --shadow-md: 0 8px 32px rgba(15,26,44,0.06);
+      --shadow-lg: 0 20px 60px rgba(15,26,44,0.08);
+      --transition: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      overflow-x: hidden;
+      line-height: 1.6;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== POLICE MOMO ===== */
+    @font-face {
+      font-family: 'Momo Trust Display';
+      src: local('Momo Trust Display'), local('MomoTrustDisplay');
+      font-weight: 300 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    .logo-text, .hero-title, .section-title,
+    .footer-logo-text {
+      font-family: 'Momo Trust Display', 'Playfair Display', serif;
+      letter-spacing: -0.02em;
+    }
+
+    /* ===== WHATSAPP FLOAT ===== */
+    .wa-float {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      z-index: 200;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: var(--wa);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 24px rgba(37,211,102,.35);
+      text-decoration: none;
+      transition: all .4s var(--transition);
+    }
+    .wa-float:hover { transform: scale(1.1) rotate(-4deg); box-shadow: 0 8px 32px rgba(37,211,102,.5); }
+    .wa-float svg { width: 26px; height: 26px; fill: #fff; }
+
+    /* ===== HEADER ===== */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      transition: all .4s var(--transition);
+    }
+    header.scrolled { 
+      box-shadow: 0 4px 32px rgba(15,26,44,.04);
+      background: rgba(255,255,255,0.92);
+    }
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .logo-wrap { 
+      display: flex; 
+      align-items: center; 
+      gap: .6rem; 
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .logo-svg {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+    .logo-svg img { width: 100%; height: 100%; display: block; object-fit: contain; }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 2.4rem; list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-size: .82rem; font-weight: 500;
+      color: var(--dark);
+      letter-spacing: .04em;
+      transition: color .3s var(--transition);
+      position: relative;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: var(--primary);
+      transition: width .4s var(--transition);
+      border-radius: 2px;
+    }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-links a:hover::after { width: 100%; }
+    .btn-nav {
+      background: var(--primary) !important;
+      color: var(--white) !important;
+      padding: .4rem 1.6rem;
+      border-radius: 100px;
+      font-weight: 600 !important;
+      transition: all .35s var(--transition) !important;
+      box-shadow: none !important;
+    }
+    .btn-nav::after { display: none !important; }
+    .btn-nav:hover { 
+      background: var(--primary-dark) !important; 
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(217,79,42,.25) !important;
+    }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .hamburger span { 
+      display: block; width: 22px; height: 2px; 
+      background: var(--dark); border-radius: 2px; 
+      transition: all .35s var(--transition);
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu {
+      display: none; position: fixed; top: 68px; left: 0; right: 0;
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(16px);
+      padding: 1.5rem 2rem; flex-direction: column; gap: 1rem;
+      z-index: 99;
+      animation: slideDown .35s var(--transition);
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      text-decoration: none; font-size: .95rem; font-weight: 500;
+      color: var(--dark); padding: .6rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      transition: all .3s var(--transition);
+    }
+    .mobile-menu a:hover { color: var(--primary); padding-left: .5rem; }
+    .mobile-menu a:last-child { border-bottom: none; }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background: var(--bg);
+      padding: 80px 2rem 4rem;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 80% 20%, rgba(217,79,42,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .hero-text {
+      animation: fadeUp 1s var(--transition) both 0.2s;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(217,79,42,0.08);
+      color: var(--primary);
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      padding: .3rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+    .hero-title {
+      font-size: clamp(2.6rem, 5.5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--dark);
+      margin-bottom: 1.2rem;
+    }
+    .hero-title .accent {
+      color: var(--primary);
+      font-style: italic;
+    }
+    .hero-desc {
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--gray);
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      font-weight: 400;
+    }
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--primary); color: var(--white);
+      text-decoration: none; font-weight: 600; font-size: .9rem;
+      padding: .8rem 2.2rem; border-radius: 100px;
+      transition: all .4s var(--transition);
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(217,79,42,.3);
+    }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: .5rem;
+      color: var(--dark); text-decoration: none;
+      font-weight: 500; font-size: .9rem;
+      padding: .8rem 1.8rem; border-radius: 100px;
+      border: 1.5px solid var(--gray-light);
+      transition: all .4s var(--transition);
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      background: transparent;
+    }
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    }
+
+    .hero-visual {
+      animation: fadeUp 1s var(--transition) both 0.4s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-grid-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      width: 100%;
+      max-width: 480px;
+    }
+    .hero-card {
+      aspect-ratio: 1/1.2;
+      border-radius: 24px;
+      background: var(--white);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all .5s var(--transition);
+      border: 1px solid rgba(0,0,0,0.02);
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(217,79,42,0.03) 0%, transparent 60%);
+    }
+    .hero-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(217,79,42,0.1);
+    }
+    .hero-card:first-child { margin-top: 2rem; }
+    .hero-card .card-icon {
+      font-size: 2.4rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 300;
+      color: var(--gray);
+      margin-bottom: .5rem;
+      letter-spacing: 0.1em;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-card .card-label {
+      font-size: .7rem;
+      font-weight: 600;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      position: relative;
+      z-index: 1;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+    .hero-card .card-number {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      font-size: .6rem;
+      font-weight: 700;
+      color: rgba(217,79,42,0.15);
+      letter-spacing: .05em;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .hero-float {
+      position: absolute;
+      background: var(--white);
+      border-radius: 100px;
+      padding: .5rem 1.2rem;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .75rem;
+      font-weight: 500;
+      color: var(--dark);
+      animation: floatY 4s ease-in-out infinite;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      border: 1px solid rgba(0,0,0,0.02);
+    }
+    .hero-float.f1 { bottom: -8px; left: -8px; animation-delay: 0s; }
+    .hero-float.f2 { top: 12px; right: -16px; animation-delay: 1.8s; }
+    .float-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ===== STATS ===== */
+    .stats {
+      padding: 3rem 2rem;
+      background: var(--white);
+      border-top: 1px solid rgba(0,0,0,0.03);
+      border-bottom: 1px solid rgba(0,0,0,0.03);
+    }
+    .stats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 2rem;
+    }
+    .stat-item {
+      text-align: center;
+      padding: .5rem;
+    }
+    .stat-number {
+      font-family: 'Momo Trust Display', 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+    .stat-label {
+      font-size: .8rem;
+      color: var(--gray);
+      margin-top: .1rem;
+      font-weight: 500;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      letter-spacing: .02em;
+    }
+
+    /* ===== SECTIONS ===== */
+    section { padding: 5rem 2rem; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block;
+      background: rgba(217,79,42,0.06);
+      color: var(--primary);
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      padding: .25rem .9rem;
+      border-radius: 100px;
+      margin-bottom: .8rem;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+    .section-title {
+      font-family: 'Momo Trust Display', 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: .6rem;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .section-desc {
+      font-size: 1rem;
+      color: var(--gray);
+      line-height: 1.8;
+      max-width: 520px;
+      font-weight: 400;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+    .section-head { margin-bottom: 3.5rem; }
+
+    /* ===== AVANTAGES ===== */
+    .avantages {
+      background: var(--white);
+    }
+    .avantages-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1.8rem;
+    }
+    .avantage-card {
+      padding: 2rem 1.8rem;
+      background: var(--bg);
+      border-radius: 20px;
+      border: 1px solid transparent;
+      transition: all .45s var(--transition);
+    }
+    .avantage-card:hover {
+      border-color: rgba(217,79,42,0.1);
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+    }
+    .avantage-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(217,79,42,0.06);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+    }
+    .avantage-icon svg {
+      width: 22px; height: 22px;
+      stroke: var(--primary);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .avantage-title {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: .4rem;
+    }
+    .avantage-desc {
+      font-size: .85rem;
+      color: var(--gray);
+      line-height: 1.7;
+      font-weight: 400;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+
+    /* ===== PRODUITS ===== */
+    .produits { background: var(--bg); }
+    .coming-soon {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 4rem 2rem;
+      text-align: center;
+      border: 1px solid rgba(0,0,0,0.03);
+      box-shadow: var(--shadow-sm);
+      transition: all .5s var(--transition);
+    }
+    .coming-soon:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-4px);
+    }
+    .coming-soon .icon-wrap {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 1.2rem;
+      background: rgba(217,79,42,0.06);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .coming-soon .icon-wrap svg {
+      width: 32px; height: 32px;
+      stroke: var(--primary);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .coming-soon h3 {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: .6rem;
+    }
+    .coming-soon p {
+      font-size: .95rem;
+      color: var(--gray);
+      max-width: 480px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.7;
+      font-weight: 400;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+    .btn-fb {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      background: #1877F2;
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: .85rem;
+      padding: .7rem 2rem;
+      border-radius: 100px;
+      transition: all .35s var(--transition);
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-fb:hover {
+      background: #1664d6;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(24,119,242,.25);
+    }
+
+    /* ===== ÉTAPES ===== */
+    .etapes {
+      background: var(--dark);
+      position: relative;
+      overflow: hidden;
+    }
+    .etapes::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(217,79,42,0.04) 0%, transparent 60%);
+    }
+    .etapes .section-title { color: var(--white); }
+    .etapes .section-desc { color: rgba(255,255,255,.45); }
+    .etapes .section-tag { background: rgba(217,79,42,0.12); color: #f5d6cc; }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .step-item {
+      text-align: center;
+      padding: 1.5rem 1rem;
+    }
+    .step-number {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(217,79,42,0.08);
+      border: 1.5px solid rgba(217,79,42,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-family: 'Momo Trust Display', 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      transition: all .4s var(--transition);
+    }
+    .step-item:hover .step-number {
+      background: rgba(217,79,42,0.15);
+      border-color: rgba(217,79,42,0.3);
+      transform: scale(1.05);
+    }
+    .step-title {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: .4rem;
+    }
+    .step-desc {
+      font-size: .82rem;
+      color: rgba(255,255,255,.4);
+      line-height: 1.6;
+      font-weight: 400;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+
+    /* ===== LIVRAISON ===== */
+    .livraison { background: var(--white); }
+    .livraison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+    }
+    .livraison-image {
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+    .livraison-image img { width: 100%; display: block; transition: transform .8s var(--transition); }
+    .livraison-image:hover img { transform: scale(1.03); }
+    .livraison-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .livraison-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      padding: 1rem 1.4rem;
+      background: var(--bg);
+      border-radius: 16px;
+      border: 1px solid transparent;
+      transition: all .4s var(--transition);
+    }
+    .livraison-item:hover {
+      border-color: rgba(217,79,42,0.08);
+      transform: translateX(6px);
+    }
+    .livraison-item-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(217,79,42,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .livraison-item-icon svg {
+      width: 20px; height: 20px;
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .livraison-item-title {
+      font-weight: 600;
+      color: var(--dark);
+      font-size: .9rem;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+    .livraison-item-desc {
+      font-size: .82rem;
+      color: var(--gray);
+      line-height: 1.6;
+      font-weight: 400;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+
+    /* ===== CTA ===== */
+    .cta-section {
+      padding: 4rem 2rem;
+      background: var(--primary);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
+    }
+    .cta-section > div {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .cta-section h2 {
+      font-family: 'Momo Trust Display', 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: .6rem;
+    }
+    .cta-section p {
+      font-size: 1rem;
+      color: rgba(255,255,255,.75);
+      margin-bottom: 2rem;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+    .cta-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-white {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--white); color: var(--primary);
+      text-decoration: none; font-weight: 600; font-size: .85rem;
+      padding: .8rem 2.2rem; border-radius: 100px;
+      transition: all .4s var(--transition);
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-white:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    }
+    .btn-wa-outline {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: transparent; color: var(--white);
+      text-decoration: none; font-weight: 600; font-size: .85rem;
+      padding: .8rem 2.2rem; border-radius: 100px;
+      border: 1.5px solid rgba(255,255,255,.25);
+      transition: all .4s var(--transition);
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+    .btn-wa-outline:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,.4);
+      transform: translateY(-3px);
+    }
+
+    /* ===== CONTACT ===== */
+    .contact { background: var(--bg); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .contact-items {
+      display: flex;
+      flex-direction: column;
+      gap: .8rem;
+      margin-top: 1.5rem;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: .8rem 1.2rem;
+      background: var(--white);
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,0.03);
+      text-decoration: none;
+      transition: all .35s var(--transition);
+    }
+    .contact-item:hover {
+      border-color: rgba(217,79,42,0.1);
+      transform: translateX(4px);
+      box-shadow: var(--shadow-sm);
+    }
+    .contact-item-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: rgba(217,79,42,0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-item-icon svg {
+      width: 18px; height: 18px;
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .contact-item-icon.fb svg { fill: #1877F2; stroke: none; }
+    .contact-item-icon.wa svg { fill: #25D366; stroke: none; }
+    .contact-item-label {
+      font-size: .7rem;
+      color: var(--gray);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+    .contact-item-value {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--dark);
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+    }
+    .form-group label {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--dark);
+      letter-spacing: .02em;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%; padding: .7rem 1rem;
+      border: 1.5px solid rgba(0,0,0,0.06);
+      border-radius: 14px;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: .9rem;
+      color: var(--dark);
+      background: var(--white);
+      transition: all .35s var(--transition);
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(217,79,42,0.04);
+    }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .btn-submit {
+      display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+      background: var(--primary); color: var(--white);
+      border: none; cursor: pointer;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-weight: 600; font-size: .9rem;
+      padding: .8rem 2rem; border-radius: 100px;
+      transition: all .35s var(--transition);
+    }
+    .btn-submit:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(217,79,42,.25);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,.5);
+      padding: 3.5rem 2rem 1.5rem;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .footer-brand .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin-bottom: .8rem;
+    }
+    .footer-brand .footer-logo-mark {
+      width: 32px; height: 32px;
+    }
+    .footer-brand .footer-logo-mark img { width: 100%; height: 100%; display: block; object-fit: contain; }
+    .footer-brand .footer-logo-text {
+      font-family: 'Momo Trust Display', 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+    }
+    .footer-brand p {
+      font-size: .85rem;
+      line-height: 1.8;
+      max-width: 300px;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+    .footer-col h4 {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 1rem;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+    .footer-col ul a {
+      text-decoration: none;
+      font-size: .85rem;
+      color: rgba(255,255,255,.4);
+      transition: all .3s var(--transition);
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+    .footer-col ul a:hover { color: var(--white); padding-left: 4px; }
+    .footer-bottom {
+      padding-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-bottom p {
+      font-size: .75rem;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+    .footer-bottom a { color: rgba(255,255,255,.5); text-decoration: none; transition: color .3s var(--transition); }
+    .footer-bottom a:hover { color: var(--white); }
+    .footer-socials {
+      display: flex;
+      gap: .6rem;
+    }
+    .footer-socials a {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all .35s var(--transition);
+    }
+    .footer-socials a:hover {
+      border-color: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+    }
+    .footer-socials svg {
+      width: 14px; height: 14px;
+      fill: rgba(255,255,255,.3);
+      transition: fill .3s var(--transition);
+    }
+    .footer-socials a:hover svg { fill: var(--white); }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes floatY {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all .9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .avantages-grid .reveal:nth-child(1) { transition-delay: 0.05s; }
+    .avantages-grid .reveal:nth-child(2) { transition-delay: 0.1s; }
+    .avantages-grid .reveal:nth-child(3) { transition-delay: 0.15s; }
+    .avantages-grid .reveal:nth-child(4) { transition-delay: 0.2s; }
+    .avantages-grid .reveal:nth-child(5) { transition-delay: 0.25s; }
+    .avantages-grid .reveal:nth-child(6) { transition-delay: 0.3s; }
+    .steps-grid .reveal:nth-child(1) { transition-delay: 0.05s; }
+    .steps-grid .reveal:nth-child(2) { transition-delay: 0.1s; }
+    .steps-grid .reveal:nth-child(3) { transition-delay: 0.15s; }
+    .steps-grid .reveal:nth-child(4) { transition-delay: 0.2s; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 3rem; padding-top: 40px; }
+      .hero-visual { display: none; }
+      .avantages-grid { grid-template-columns: 1fr 1fr; }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+      .livraison-grid { grid-template-columns: 1fr; }
+      .livraison-image { display: none; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .stats-inner { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .avantages-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 2.2rem; }
+      .hero { padding: 80px 1.5rem 3rem; }
+      .cta-btns { flex-direction: column; align-items: center; }
+      .footer-bottom { flex-direction: column; align-items: center; text-align: center; }
+      .coming-soon { padding: 2.5rem 1.5rem; }
+      .logo-svg { width: 34px; height: 34px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/261340972501" target="_blank" class="wa-float" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+  </svg>
+</a>
+
+<!-- HEADER -->
+<header id="header">
+  <nav>
+    <a href="#" class="logo-wrap">
+      <div class="logo-svg">
+        <img src="images/logo-rambeso.webp" alt="Rambeso" />
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#avantages">Avantages</a></li>
+      <li><a href="#produits">Produits</a></li>
+      <li><a href="#etapes">Étapes</a></li>
+      <li><a href="#livraison">Livraison</a></li>
+      <li><a href="#contact" class="btn-nav">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#avantages">Avantages</a>
+  <a href="#produits">Produits</a>
+  <a href="#etapes">Étapes</a>
+  <a href="#livraison">Livraison</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-badge">✦ Boutique en ligne Madagascar</div>
+        <h1 class="hero-title">
+          Shopping en toute<br /><span class="accent">confiance</span>
+        </h1>
+        <p class="hero-desc">
+          Rambeso vous propose bientôt une sélection de produits stylés et pratiques, livrés en toute sécurité à domicile ou en province.
+        </p>
+        <div class="hero-cta">
+          <a href="#produits" class="btn-primary">
+            En savoir plus
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="https://wa.me/261340972501" target="_blank" class="btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+            Nous écrire
+          </a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-grid-cards">
+          <div class="hero-card">
+            <span class="card-number">01</span>
+            <span class="card-icon">Mode</span>
+            <span class="card-label">Style & Élégance</span>
+          </div>
+          <div class="hero-card">
+            <span class="card-number">02</span>
+            <span class="card-icon">Maison</span>
+            <span class="card-label">Décoration & Confort</span>
+          </div>
+          <div class="hero-card">
+            <span class="card-number">03</span>
+            <span class="card-icon">Tech</span>
+            <span class="card-label">Innovation & Pratique</span>
+          </div>
+          <div class="hero-card">
+            <span class="card-number">04</span>
+            <span class="card-icon">Soin</span>
+            <span class="card-label">Beauté & Bien-être</span>
+          </div>
+        </div>
+        <div class="hero-float f1">
+          <span class="float-dot" style="background:#2DB87E;"></span>
+          Livraison sécurisée
+        </div>
+        <div class="hero-float f2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D94F2A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          100 % fiable
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stats-inner">
+      <div class="stat-item reveal">
+        <div class="stat-number">50+</div>
+        <div class="stat-label">Produits à venir</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-number">48h</div>
+        <div class="stat-label">Livraison moyenne</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Sécurisé</div>
+      </div>
+      <div class="stat-item reveal">
+        <div class="stat-number">Qualité</div>
+        <div class="stat-label">Prix imbattables</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVANTAGES -->
+  <section class="avantages" id="avantages">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-tag">Pourquoi nous</span>
+        <h2 class="section-title">Une expérience pensée pour vous</h2>
+        <p class="section-desc">Simplicité, sécurité et qualité — voici ce qui fait la différence chez Rambeso.</p>
+      </div>
+      <div class="avantages-grid">
+        <div class="avantage-card reveal">
+          <div class="avantage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="avantage-title">Paiements sécurisés</div>
+          <p class="avantage-desc">Chaque transaction est protégée et chaque colis suivi jusqu'à votre réception.</p>
+        </div>
+        <div class="avantage-card reveal">
+          <div class="avantage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="avantage-title">Livraison rapide</div>
+          <p class="avantage-desc">Des délais courts et respectés pour recevoir vos articles sans attendre.</p>
+        </div>
+        <div class="avantage-card reveal">
+          <div class="avantage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div class="avantage-title">Produits sélectionnés</div>
+          <p class="avantage-desc">Chaque article est choisi pour sa qualité, son utilité et son esthétique.</p>
+        </div>
+        <div class="avantage-card reveal">
+          <div class="avantage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div class="avantage-title">Disponible en province</div>
+          <p class="avantage-desc">Retirez vos commandes auprès de notre prestataire partenaire près de chez vous.</p>
+        </div>
+        <div class="avantage-card reveal">
+          <div class="avantage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div class="avantage-title">Service client réactif</div>
+          <p class="avantage-desc">Une équipe à votre écoute pour répondre à toutes vos questions.</p>
+        </div>
+        <div class="avantage-card reveal">
+          <div class="avantage-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+          <div class="avantage-title">Suivi en temps réel</div>
+          <p class="avantage-desc">Restez informé de l'avancement de votre commande à chaque étape.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUITS -->
+  <section class="produits" id="produits">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-tag">Notre catalogue</span>
+        <h2 class="section-title">Des produits pour chaque besoin</h2>
+        <p class="section-desc">Styles, pratiques et utiles — notre sélection arrive bientôt. Suivez-nous sur Facebook.</p>
+      </div>
+
+      <div class="coming-soon reveal">
+        <div class="icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+        </div>
+        <h3>Notre collection arrive bientôt</h3>
+        <p>Nous sélectionnons avec soin chaque produit pour vous offrir le meilleur du shopping en ligne à Madagascar.</p>
+        <a href="https://www.facebook.com/rambeso.mg" target="_blank" class="btn-fb">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          Suivez-nous sur Facebook
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÉTAPES -->
+  <section class="etapes" id="etapes">
+    <div class="section-inner">
+      <div class="section-head reveal" style="text-align:center; max-width:600px; margin:0 auto 3rem;">
+        <span class="section-tag">En 4 étapes</span>
+        <h2 class="section-title">Comment commander</h2>
+        <p class="section-desc" style="margin:0 auto;">Un processus simple et transparent pour vous accompagner.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-item reveal">
+          <div class="step-number">1</div>
+          <div class="step-title">Choisissez</div>
+          <div class="step-desc">Parcourez notre catalogue et sélectionnez l'article qui vous plaît.</div>
+        </div>
+        <div class="step-item reveal">
+          <div class="step-number">2</div>
+          <div class="step-title">Commandez</div>
+          <div class="step-desc">Transmettez votre commande par WhatsApp, téléphone ou formulaire.</div>
+        </div>
+        <div class="step-item reveal">
+          <div class="step-number">3</div>
+          <div class="step-title">Préparation</div>
+          <div class="step-desc">Nous confirmons et préparons votre colis avec le plus grand soin.</div>
+        </div>
+        <div class="step-item reveal">
+          <div class="step-number">4</div>
+          <div class="step-title">Réception</div>
+          <div class="step-desc">Livré à domicile ou retrait en province. Profitez de vos achats !</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVRAISON -->
+  <section class="livraison" id="livraison">
+    <div class="section-inner">
+      <div class="livraison-grid">
+        <div class="livraison-image reveal">
+          <img src="https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=800&q=80" alt="Livraison" loading="lazy" />
+        </div>
+        <div>
+          <div class="reveal">
+            <span class="section-tag">Livraison</span>
+            <h2 class="section-title">Livré où que vous soyez</h2>
+            <p class="section-desc">Que vous soyez en ville ou en province, nous avons la solution pour vous.</p>
+          </div>
+          <div class="livraison-items">
+            <div class="livraison-item reveal">
+              <div class="livraison-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <div>
+                <div class="livraison-item-title">À domicile</div>
+                <div class="livraison-item-desc">Livraison directe chez vous, sans tracas ni déplacement.</div>
+              </div>
+            </div>
+            <div class="livraison-item reveal">
+              <div class="livraison-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+              </div>
+              <div>
+                <div class="livraison-item-title">Retrait en province</div>
+                <div class="livraison-item-desc">Récupérez votre colis chez notre transporteur partenaire.</div>
+              </div>
+            </div>
+            <div class="livraison-item reveal">
+              <div class="livraison-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div>
+                <div class="livraison-item-title">Colis assurés</div>
+                <div class="livraison-item-desc">Emballage soigné et suivi complet, de la préparation à la réception.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div>
+      <h2 class="reveal">Prêt à passer commande ?</h2>
+      <p class="reveal">Contactez-nous dès aujourd'hui pour une expérience shopping simple et sécurisée.</p>
+      <div class="cta-btns reveal">
+        <a href="https://wa.me/261340972501" target="_blank" class="btn-white">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+          Commander
+        </a>
+        <a href="#contact" class="btn-wa-outline">
+          Nous contacter
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="section-inner">
+      <div class="contact-grid">
+        <div>
+          <div class="reveal">
+            <span class="section-tag">Contact</span>
+            <h2 class="section-title">Une question ?</h2>
+            <p class="section-desc">Nous sommes à votre disposition pour vous renseigner et vous accompagner.</p>
+          </div>
+          <div class="contact-items">
+            <a href="https://wa.me/261340972501" target="_blank" class="contact-item reveal">
+              <div class="contact-item-icon wa">
+                <svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+              </div>
+              <div>
+                <div class="contact-item-label">WhatsApp</div>
+                <div class="contact-item-value">034 09 725 01</div>
+              </div>
+            </a>
+            <a href="tel:+261340972501" class="contact-item reveal">
+              <div class="contact-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <div>
+                <div class="contact-item-label">Appel</div>
+                <div class="contact-item-value">034 09 725 01</div>
+              </div>
+            </a>
+            <a href="https://www.facebook.com/rambeso.mg" target="_blank" class="contact-item reveal">
+              <div class="contact-item-icon fb">
+                <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </div>
+              <div>
+                <div class="contact-item-label">Facebook</div>
+                <div class="contact-item-value">rambeso.mg</div>
+              </div>
+            </a>
+            <div class="contact-item reveal">
+              <div class="contact-item-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div>
+                <div class="contact-item-label">Email</div>
+                <div class="contact-item-value">contact@rambeso.online</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <form class="contact-form" onsubmit="return false;">
+            <div class="form-row" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+              <div class="form-group">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" placeholder="Votre nom" />
+              </div>
+              <div class="form-group">
+                <label for="tel">Téléphone</label>
+                <input type="tel" id="tel" placeholder="034 XX XXX XX" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" placeholder="votre@email.com" />
+            </div>
+            <div class="form-group">
+              <label for="sujet">Sujet</label>
+              <select id="sujet">
+                <option value="">Sélectionnez</option>
+                <option>Commande</option>
+                <option>Information produit</option>
+                <option>Suivi</option>
+                <option>Livraison</option>
+                <option>Autre</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" placeholder="Votre demande..."></textarea>
+            </div>
+            <button class="btn-submit" type="submit">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Envoyer
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="footer-logo-mark">
+            <img src="images/logo-rambeso.webp" alt="Rambeso" />
+          </div>
+          <span class="footer-logo-text">Rambeso</span>
+        </div>
+        <p>Le confort du shopping, la sécurité en plus. Des produits stylés, utiles et pratiques, livrés en toute confiance.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#avantages">Avantages</a></li>
+          <li><a href="#produits">Produits</a></li>
+          <li><a href="#etapes">Étapes</a></li>
+          <li><a href="#livraison">Livraison</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Informations</h4>
+        <ul>
+          <li><a href="#">Conditions générales</a></li>
+          <li><a href="#">Confidentialité</a></li>
+          <li><a href="#">Livraison</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="https://wa.me/261340972501">WhatsApp</a></li>
+          <li><a href="tel:+261340972501">034 09 725 01</a></li>
+          <li><a href="mailto:contact@rambeso.online">contact@rambeso.online</a></li>
+          <li><a href="#">Antananarivo</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Rambeso. Développé par <a href="https://www.ankinomg.com" target="_blank">Ankino MG</a>.</p>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/rambeso.mg" target="_blank" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="https://wa.me/261340972501" target="_blank" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        </a>
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Header scroll
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Stats counter
+  function animateCounter(el, target, suffix) {
+    let start = 0;
+    const duration = 1500;
+    const step = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) { start = target; clearInterval(timer); }
+      el.textContent = Math.floor(start) + suffix;
+    }, 16);
+  }
+
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const txt = el.textContent;
+        if (txt.includes('50+')) animateCounter(el, 50, '+');
+        else if (txt.includes('48h')) { /* keep */ }
+        else if (txt.includes('100%')) animateCounter(el, 100, '%');
+        statsObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.stat-number').forEach(el => statsObserver.observe(el));
+</script>
+</body>
+</html>
