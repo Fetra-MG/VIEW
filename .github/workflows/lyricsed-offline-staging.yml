@@ -1,0 +1,33 @@
+name: LyriCSED Android offline staging build
+on:
+  push:
+    branches:
+      - lyricsed-android-local-test
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  html:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch canonical LyriCSED source
+        run: git clone --depth 1 https://github.com/choralesedera/sedyrics.git lyricsed-source
+      - name: Build local HTML with seeded lyrics and solfa
+        run: python3 scripts/build-lyricsed-local.py lyricsed-source
+      - name: Validate local HTML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          html=Path('lyricsed-local.html').read_text()
+          assert 'const IS_KODULAR_LOCAL=true' in html
+          assert 'EMBEDDED_DOCS=' in html
+          assert 'http://localhost' not in html.split('<script id="lyricsed-inline-app">')[0]
+          print('HTML asset verified',len(html))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lyricsed-kodular-offline-html
+          path: lyricsed-local.html
+          if-no-files-found: error
+          retention-days: 7
